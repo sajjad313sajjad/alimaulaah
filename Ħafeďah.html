@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ar">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Diary Terminal</title>
+  <link href="https://fonts.googleapis.com/css2?family=Amiri&family=Roboto&family=Vazir&family=Cairo&family=Arial&family=Times+New+Roman&family=Tajawal&family=Lateef&family=Diwan+Kufi&family=Diwan+Thuluth&family=Baghdadi&family=PT+Serif&family=Merriweather&family=Open+Sans&family=Lora&family=Scheherazade&family=Amiri+Quran&family=Courier+New&family=Fira+Code&family=Source+Serif+Pro&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Roboto', sans-serif;
+      background-color: #0a3d2a;
+      color: #00ff00;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+      flex-direction: column;
+      background-color: #f3f4f6;
+    }
+    select {
+      margin-top: 10px;
+      padding: 5px;
+      background-color: #002200;
+      color: #00ff00;
+      border: 1px solid #00ff00;
+    }
+    #command {
+      background: #003300;
+      border: 1px solid #00ff00;
+      color: #00ff00;
+      width: 100%;
+      height: 150px;
+      font-size: 16px;
+      padding: 10px;
+      margin-top: 10px;
+      resize: none;
+      overflow: auto;
+    }
+    button {
+      background-color: #00cc66;
+      color: white;
+      font-size: 16px;
+      border: none;
+      padding: 10px 20px;
+      cursor: pointer;
+      margin-top: 10px;
+    }
+    button:hover {
+      background-color: #00ff00;
+    }
+    .container {
+      width: 100%;
+      max-width: 600px;
+      background-color: #ffffff;
+      padding: 2rem;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      text-align: center;
+    }
+    h2 {
+      color: #333;
+      margin-bottom: 1.5rem;
+    }
+    input[type="text"], input[type="password"], textarea {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      border: 1px solid #ddd;
+      border-radius: 5px;
+      font-size: 1rem;
+    }
+    button {
+      width: 100%;
+      padding: 0.8rem;
+      margin: 0.5rem 0;
+      background-color: #4CAF50;
+      color: #fff;
+      border: none;
+      border-radius: 5px;
+      font-size: 1rem;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #45a049;
+    }
+    .warning {
+      color: red;
+      font-size: 0.9rem;
+      margin-top: 0.5rem;
+    }
+    #signupScreen, #notes, #main-content {
+      display: none;
+    }
+    #notes {
+      margin-top: 1rem;
+      border-top: 1px solid #ddd;
+      padding-top: 1rem;
+      text-align: left;
+      display: flex;
+      flex-direction: column;
+      align-items: flex-start;
+    }
+    #logoutButton {
+      background-color: #e74c3c;
+      font-size: 0.9rem;
+      margin: 1rem 0;
+    }
+    #logoutButton:hover {
+      background-color: #c0392b;
+    }
+    .note {
+      display: flex;
+      align-items: center;
+      margin-bottom: 10px;
+      background-color: #f1f1f1;
+      padding: 10px;
+      border-radius: 5px;
+      width: 100%;
+      border: 1px solid #ddd;
+    }
+    .note input[type="checkbox"] {
+      margin-right: 10px;
+    }
+    .note span {
+      flex-grow: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container">
+    <div id="loginScreen">
+      <h2>تسجيل الدخول</h2>
+      <input type="text" id="username" placeholder="اسم المستخدم" />
+      <input type="password" id="password" placeholder="كلمة المرور" />
+      <button id="loginButton">تسجيل الدخول</button>
+      <button id="signupButton">إنشاء حساب</button>
+      <div class="warning" id="loginWarning" style="display: none;">اسم المستخدم أو كلمة المرور غير صحيحة.</div>
+    </div>
+
+    <div id="signupScreen">
+      <h2>إنشاء حساب جديد</h2>
+      <input type="text" id="newUsername" placeholder="اسم المستخدم" />
+      <input type="password" id="newPassword" placeholder="كلمة المرور" />
+      <input type="password" id="confirmPassword" placeholder="تأكيد كلمة المرور" />
+      <button id="createAccountButton">إنشاء الحساب</button>
+      <div class="warning" id="passwordWarning" style="display: none;">يجب أن تكون كلمة المرور مكونة من 8 أحرف على الأقل وتتضمن حروف صغيرة وكبيرة وأرقام.</div>
+    </div>
+
+    <div id="main-content">
+      <button id="logoutButton">تسجيل الخروج</button>
+      <div>
+        <label for="fontSelect">اختر الخط:</label>
+        <select id="fontSelect">
+          <option value="Roboto">Roboto</option>
+          <option value="Vazir">Vazir</option>
+          <option value="Cairo">Cairo</option>
+          <option value="Amiri">Amiri</option>
+          <option value="Arial">Arial</option>
+          <option value="Times New Roman">Times New Roman</option>
+          <option value="Tajawal">Tajawal</option>
+          <option value="Lateef">Lateef</option>
+          <option value="Diwan Kufi">Diwan Kufi</option>
+          <option value="Diwan Thuluth">Diwan Thuluth</option>
+          <option value="Baghdadi">Baghdadi</option>
+          <option value="PT Serif">PT Serif</option>
+          <option value="Merriweather">Merriweather</option>
+          <option value="Open Sans">Open Sans</option>
+          <option value="Lora">Lora</option>
+          <option value="Scheherazade">Scheherazade</option>
+          <option value="Amiri Quran">Amiri Quran</option>
+          <option value="Courier New">Courier New</option>
+          <option value="Fira Code">Fira Code</option>
+          <option value="Source Serif Pro">Source Serif Pro</option>
+        </select>
+      </div>
+      <textarea id="command" placeholder="اكتب ملاحظتك هنا..."></textarea>
+      <button id="saveButton">حفظ الملاحظة</button>
+      <button id="deleteSelectedButton">حذف المحدد</button>
+    </div>
+
+    <div id="notes"></div>
+  </div>
+
+  <script>
+    const fontSelect = document.getElementById('fontSelect');
+    const commandTextArea = document.getElementById('command');
+    const saveButton = document.getElementById('saveButton');
+    const deleteSelectedButton = document.getElementById('deleteSelectedButton');
+    const notesElement = document.getElementById('notes');
+
+    // تغيير الخط فور اختيار المستخدم له من القائمة
+    fontSelect.addEventListener('change', () => {
+      const selectedFont = fontSelect.value;
+      commandTextArea.style.fontFamily = selectedFont;
+    });
+
+    const loginScreen = document.getElementById('loginScreen');
+    const signupScreen = document.getElementById('signupScreen');
+    const mainContent = document.getElementById('main-content');
+    const logoutButton = document.getElementById('logoutButton');
+    const usernameInput = document.getElementById('username');
+    const passwordInput = document.getElementById('password');
+    const newUsernameInput = document.getElementById('newUsername');
+    const newPasswordInput = document.getElementById('newPassword');
+    const confirmPasswordInput = document.getElementById('confirmPassword');
+    const loginButton = document.getElementById('loginButton');
+    const signupButton = document.getElementById('signupButton');
+    const createAccountButton = document.getElementById('createAccountButton');
+    const loginWarning = document.getElementById('loginWarning');
+    const passwordWarning = document.getElementById('passwordWarning');
+    let loggedInUser = null;
+    const users = [];
+
+    loginButton.addEventListener('click', () => {
+      const username = usernameInput.value;
+      const password = passwordInput.value;
+      const user = users.find(u => u.username === username && u.password === password);
+      if (user) {
+        loggedInUser = user;
+        loginScreen.style.display = 'none';
+        mainContent.style.display = 'block';
+      } else {
+        loginWarning.style.display = 'block';
+      }
+    });
+
+    signupButton.addEventListener('click', () => {
+      loginScreen.style.display = 'none';
+      signupScreen.style.display = 'block';
+    });
+
+    createAccountButton.addEventListener('click', () => {
+      const newUsername = newUsernameInput.value;
+      const newPassword = newPasswordInput.value;
+      const confirmPassword = confirmPasswordInput.value;
+
+      const passwordRegex = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d).{8,}$/;
+
+      if (newPassword !== confirmPassword || !passwordRegex.test(newPassword)) {
+        passwordWarning.style.display = 'block';
+      } else {
+        users.push({ username: newUsername, password: newPassword });
+        signupScreen.style.display = 'none';
+        loginScreen.style.display = 'block';
+      }
+    });
+
+    logoutButton.addEventListener('click', () => {
+      loggedInUser = null;
+      mainContent.style.display = 'none';
+      loginScreen.style.display = 'block';
+    });
+
+    saveButton.addEventListener('click', () => {
+      const command = commandTextArea.value;
+      if (command) {
+        const note = document.createElement('div');
+        note.classList.add('note');
+        note.innerHTML = `
+          <input type="checkbox" />
+          <span>${command}</span>
+        `;
+        notesElement.appendChild(note);
+        commandTextArea.value = '';
+      }
+    });
+
+    deleteSelectedButton.addEventListener('click', () => {
+      const checkedNotes = document.querySelectorAll('.note input[type="checkbox"]:checked');
+      checkedNotes.forEach(checkbox => {
+        checkbox.parentElement.remove();
+      });
+    });
+  </script>
+</body>
+</html>
